@@ -29,6 +29,7 @@ package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,8 +39,7 @@ public class MathController {
     IBigData bigData;
 
     @RequestMapping("/")
-    public String get() {
-        int candidate = 1_234_567_891;
+    public String get(@RequestParam(value="c", defaultValue="1") int candidate) {
         return candidate + " = " + bigData.isPrime(candidate);
     }
 }
