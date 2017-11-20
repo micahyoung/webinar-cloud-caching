@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Bean;
 public class DemoApplication {
 
     @Bean
-    CachedBigData bigData() {
-        return new CachedBigData();
+    CachedBigDataService bigDataService() {
+        return new CachedBigDataService();
     }
 
     public static void main(String[] args) {
@@ -36,23 +36,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class MathController {
 
     @Autowired
-    IBigData bigData;
+    IBigDataService bigDataService;
 
     @RequestMapping("/")
     public String get(@RequestParam(value="c", defaultValue="1") int candidate) {
-        return candidate + " = " + bigData.isPrime(candidate);
+        return candidate + " = " + bigDataService.isPrime(candidate);
     }
 }
 END
 
-cat > src/main/java/com/example/demo/CachedBigData.java <<END
+cat > src/main/java/com/example/demo/CachedBigDataService.java <<END
 package com.example.demo;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CachedBigData implements IBigData {
+public class CachedBigDataService implements IBigDataService {
 
     @Cacheable(value="isPrime")
     public boolean isPrime(int candidate) {
@@ -66,10 +66,10 @@ public class CachedBigData implements IBigData {
 }
 END
 
-cat > src/main/java/com/example/demo/IBigData.java <<END
+cat > src/main/java/com/example/demo/IBigDataService.java <<END
 package com.example.demo;
 
-public interface IBigData {
+public interface IBigDataService {
 
     boolean isPrime(int candidate);
 
